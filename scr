@@ -1,0 +1,139 @@
+#!/bin/env bash
+#
+#  # +---------------------------------------------+ #
+#  # | created by: achmur           time4Linux     | #
+#  # | -------------------         __  __ __  __   | #
+#  # |                            / /_/ // / / /   | #
+#  # | created on: 2023-01-15    / __/ // /_/ /    | #
+#  # | updated on: 2023-02-05   / /_/__  __/ /___  | #
+#  # |                          \__/  /_/ /_____/  | #
+#  # | Description:                                | #
+#  # |       my little script for making scripts   | #
+#  # +---------------------------------------------+ #
+. my_colors
+
+#  # +---------------+ #
+#  # |    FUNKCJE    | #
+#  # +---------------+ #
+#  
+#  # +--------------------------------+ #
+#  # |  INFORMATION about the script  | #
+#
+help(){
+	echo -e "Script requirements:\n"
+	echo -e "       $BGreen$(basename $0)$Color_Off <file_name>" 
+	echo -e "       $BGreen$(basename $0)$Color_Off [$Green-l$Color_Off] [$Green-w$Color_Off <file_name>] [$Green-s$Color_Off <file_name>]\n"
+	echo -e "-w creates a script file in workin directory - $Green$(pwd)$Color_Off"
+	echo -e "-s creates a script file in $Green$HOME/home_lab/scripts$Color_Off"
+	echo -e "-l lists all the scripts in $Green$HOME/home_lab/scripts$Color_Off"
+}
+
+#  #  NEW SCRIPT CONTENT  #
+#  #----------------------#
+#
+content(){
+	touch $new_script
+	cat > $new_script<< EOF
+#!/bin/env bash
+#
+#  # +----------------------------------------------+ #
+#  # | created by: achmur           time4Linux      | #
+#  # | ------------------          __  __ __  __    | #
+#  # |                            / /_/ // / / /    | #
+#  # | created on: $(date +%Y-%m-%d)    / __/ // /_/ /     | #
+#  # | updated on:              / /_/__  __/ /___   | #
+#  # |                          \__/  /_/ /_____/   | #
+#  # | Description:                                 | #
+#  # |                                              | #
+#  # +----------------------------------------------+ #
+. my_colors
+
+
+EOF
+}
+
+#  #  MAN PAGE FOR SCRIPT #
+#  #----------------------#
+#
+scr_man(){
+echo -e "
+$BGreen NAME$Color_OFF
+	$IGreen $(basename $0)$Color_Off - program for creating scripts\n
+$BGreen SYNOPSIS
+	$IGreen $(basename $0)$Color_Off [flag] [file_name]\n
+$BGreen OPTIONS\n
+	$IGreen-l$Color_Off
+	lists all scripts\n
+	$IGreen-w$Color_Off <file_name>
+	creates a script file in workin directory - $Green$(pwd)$Color_Off\n
+	$IGreen-s$Color_Off <file_name>\n
+	creates a script file in $Green$HOME/home_lab/scripts$Color_Off
+	$IGreen-h$Color_Off\n
+	displays this help file
+"
+}
+#  # +------------+ #
+#  # |    main    | #
+#  # +------------+ #
+#
+#  #  CHECKING FOR ARGUMENT  #
+#  #-------------------------#
+#
+if [ ${#} -eq 0 ]; then
+ 	help
+
+#  #  CHECKING FOR FLAG  #
+#  #---------------------#
+
+elif [[ $1 == -? ]]; then
+
+#  #  GETOPTS  #
+#  #-----------#
+
+while getopts 'hw:s:lt' OPTION; do
+	case "$OPTION" in
+		h)
+			help
+			;;
+		w)
+			wvalue="$OPTARG"
+			new_script=$(pwd)/$OPTARG.sh
+			content
+      chmod +x $new_script
+			${EDITOR} $new_script
+			;;
+		s)
+			svalue="$OPTARG"
+			new_script=$HOME/home_lab/scripts/$OPTARG.sh
+			content
+      chmod +x $new_script
+			${EDITOR} $new_script
+			;;
+		l)
+      echo -e "home_lab/scripts:\n"
+      if ! command -v exa &>/dev/null; then 
+        ls -gGh --time-style=+%Y-%m-%d $HOME/home_lab/scripts/ | awk '{ print $4 " " $5  }'
+      else
+        exa -lgG --group-directories-first --icons --color-scale --time-style=long-iso $HOME/dotfiles/bin  | awk '{ print $5 " " $7 " " $8 }'
+      fi
+			;;
+		t)
+			scr_man | less
+			;;
+		*)
+			help
+			echo "gdzie jest *"
+			;;
+	esac
+done
+
+#  #  NEW SCRIPT in pwd  #
+#  #---------------------#
+
+else
+  touch $1.sh
+  new_script=$(pwd)/$1.sh
+  content
+  chmod +x $new_script
+  ${EDITOR} $new_script
+fi
