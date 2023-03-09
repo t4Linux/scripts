@@ -29,6 +29,19 @@ lg(){
   fi
 }
 # ========================================================================== #
+#                                docker                                      #
+# ========================================================================== #
+dcr(){
+  if ! command -v docker &>/dev/null; then
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    rm get-docker.sh
+    echo "docker installation successful"
+  else
+    echo "Docker already installed"
+  fi
+}
+# ========================================================================== #
 #                              lazydocker                                    #
 # ========================================================================== #
 lzd(){
@@ -180,11 +193,12 @@ echo -e "
    1) lazygit
    2) docker
    3) lazydocker
-   4) bat
-   5) delta
+   4) delta
+   5) bat
    6) NeoVim
    7) LunarVim
-   8) lvim config
+   8) Rust       
+   9) Golang     
    0) "$IGreen"Quit\n"$Color_Off
 
 # because I want to rerun case statement if the input is invalid
@@ -202,6 +216,25 @@ case_function(){
        exit 0 ;;
      3) 
        lzd
+       exit 0 ;;
+     4) 
+       delta
+       exit 0 ;;
+     5) 
+       bat
+       exit 0 ;;
+     6) 
+       neovim
+       exit 0 ;;
+     7) 
+       lvim_dep
+       lunarvim
+       exit 0 ;;
+     8) 
+       rust
+       exit 0 ;;
+     9) 
+       golang
        exit 0 ;;
      *) 
        echo -e "Are you drunk?"
