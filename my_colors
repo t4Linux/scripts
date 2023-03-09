@@ -1,0 +1,70 @@
+#!/bin/env bash
+#
+#  # created by: achmur
+#  #             time4Linux
+#  #  Description: 
+#  #      colors for my scripts
+
+# Reset
+Color_Off='\033[0m'       # Text Reset
+
+#-------------------------------------------------------------------------------------------+
+#Color picker, usage: printf $BLD$CUR$RED$BBLU'Hello World!'$DEF                            |
+#------------------------------------------+------------------------------------------------+
+#       Text color                         |       Background color                         | 
+#-------------------+----------------------+---------------------+--------------------------+ 
+# Regular Colors    | Lighter shade        | Base color          | Lighter shade            | 
+#-------------------+----------------------+---------------------+--------------------------+ 
+Black='\033[0;30m'  ; IBlack='\033[0;90m'  ; On_Black='\033[40m' ; On_IBlack='\033[0;100m'  #
+Red='\033[0;31m'    ; IRed='\033[0;91m'    ; On_Red='\033[41m'   ; On_IRed='\033[0;101m'    #
+Green='\033[0;32m'  ; IGreen='\033[0;92m'  ; On_Green='\033[42m' ; On_IGreen='\033[0;102m'  #
+Yellow='\033[0;33m' ; IYellow='\033[0;93m' ; On_Yellow='\033[43m'; On_IYellow='\033[0;103m' # 
+Blue='\033[0;34m'   ; IBlue='\033[0;94m'   ; On_Blue='\033[44m'  ; On_IBlue='\033[0;104m'   #
+Purple='\033[0;35m' ; IPurple='\033[0;95m' ; On_Purple='\033[45m'; On_IPurple='\033[0;105m' #
+Cyan='\033[0;36m'   ; ICyan='\033[0;96m'   ; On_Cyan='\033[46m'  ; On_ICyan='\033[0;106m'   #
+White='\033[0;37m'  ; IWhite='\033[0;97m'  ; On_White='\033[47m' ; On_IWhite='\033[0;107m'  #
+#-------------------+----------------------+------------------------------------------------+
+#     Bold text     | Light bold           | Underline                                      |
+#-------------------+----------------------+------------------------------------------------+
+BBlack='\033[1;30m' ; BIBlack='\033[1;90m' ; UBlack='\033[4;30m'                            #
+BRed='\033[1;31m'   ; BIRed='\033[1;91m'   ; URed='\033[4;31m'                              #
+BGreen='\033[1;32m' ; BIGreen='\033[1;92m' ; UGreen='\033[4;32m'                            #
+BYellow='\033[1;33m'; BIYellow='\033[1;93m'; UYellow='\033[4;33m'                           #
+BBlue='\033[1;34m'  ; BIBlue='\033[1;94m'  ; UBlue='\033[4;34m'                             #
+BPurple='\033[1;35m'; BIPurple='\033[1;95m'; UPurple='\033[4;35m'                           #
+BCyan='\033[1;36m'  ; BICyan='\033[1;96m'  ; UCyan='\033[4;36m'                             #
+BWhite='\033[1;37m' ; BIWhite='\033[1;97m' ; UWhite='\033[4;37m'                            #
+#-------------------+----------------------+------------------------------------------------+
+#
+#--------------------------------------------------------------------+
+#Color picker, usage: printf $BLD$CUR$RED$BBLU'Hello World!'$DEF     |
+#-------------------------+--------------------------------+---------+
+#       Text color        |       Background color         |         |
+#-----------+-------------+--------------+-----------------+         |
+# Base color|Lighter shade| Base color   | Lighter shade   |         |
+#-----------+-------------+--------------+-----------------+         |
+BLK='\e[30m'; blk='\e[90m'; BBLK='\e[40m'; bblk='\e[100m' #| Black   |
+RED='\e[31m'; red='\e[91m'; BRED='\e[41m'; bred='\e[101m' #| Red     |
+GRN='\e[32m'; grn='\e[92m'; BGRN='\e[42m'; bgrn='\e[102m' #| Green   |
+YLW='\e[33m'; ylw='\e[93m'; BYLW='\e[43m'; bylw='\e[103m' #| Yellow  |
+BLU='\e[34m'; blu='\e[94m'; BBLU='\e[44m'; bblu='\e[104m' #| Blue    |
+MGN='\e[35m'; mgn='\e[95m'; BMGN='\e[45m'; bmgn='\e[105m' #| Magenta |
+CYN='\e[36m'; cyn='\e[96m'; BCYN='\e[46m'; bcyn='\e[106m' #| Cyan    |
+WHT='\e[37m'; wht='\e[97m'; BWHT='\e[47m'; bwht='\e[107m' #| White   |
+#-------------------------{ Effects }----------------------+---------+
+DEF='\e[0m'   #Default color and effects                             |
+BLD='\e[1m'   #Bold\brighter                                         |
+DIM='\e[2m'   #Dim\darker                                            |
+CUR='\e[3m'   #Italic font                                           |
+UND='\e[4m'   #Underline                                             |
+INV='\e[7m'   #Inverted                                              |
+COF='\e[?25l' #Cursor Off                                            |
+CON='\e[?25h' #Cursor On                                             |
+#------------------------{ Functions }-------------------------------+
+# Text positioning, usage: XY 10 10 'Hello World!'                   |
+XY () { printf "\e[$2;${1}H$3"; }                                   #|
+# Print line, usage: line - 10 | line -= 20 | line 'Hello World!' 20 |
+line () { printf -v _L %$2s; printf -- "${_L// /$1}"; }             #|
+# Create sequence like {0..(X-1)}                                    |
+que () { printf -v _N %$1s; _N=(${_N// / 1}); printf "${!_N[*]}"; } #|
+#--------------------------------------------------------------------+
