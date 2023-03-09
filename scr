@@ -1,64 +1,56 @@
 #!/bin/env bash
-#
-#  # +---------------------------------------------+ #
-#  # | created by: achmur           time4Linux     | #
-#  # | -------------------         __  __ __  __   | #
-#  # |                            / /_/ // / / /   | #
-#  # | created on: 2023-01-15    / __/ // /_/ /    | #
-#  # | updated on: 2023-02-05   / /_/__  __/ /___  | #
-#  # |                          \__/  /_/ /_____/  | #
-#  # | Description:                                | #
-#  # |       my little script for making scripts   | #
-#  # +---------------------------------------------+ #
+# +-- created by: achmur -------------- time4Linux ------------------------+ #
+# |     __  __ __  __    _                           __           .--.     | #
+# |    / /_/ // / / /   (_)___  __  ___  __   ____  / /          |ö_ö |    | #
+# |   / __/ // /_/ /   / / __ \/ / / / |/_/  / __ \/ /           |\ü/ |    | #
+# |  / /_/__  __/ /___/ / / / / /_/ />  < _ / /_/ / /           //   \ \   | #
+# |  \__/  /_/ /_____/_/_/ /_/\__,_/_/|_/(_) .___/_/           (|     | )  | #
+# |                                       /_/                 /'\_   _/`\\ | #
+# |  Version     : 1.0                         2023-01-15     \___)=(___// | #
+# +------------------------------------------ 2023-03-01 ------------------+ #
+# |  Description : script template                                         | # 
+# |                   having fun with scripting                            | #
+# |  USED        - function
+# |              - 
+# +------------------------------------------------------------------------+ #
 . my_colors
 
-#  # +---------------+ #
-#  # |    FUNKCJE    | #
-#  # +---------------+ #
-#  
-#  # +--------------------------------+ #
-#  # |  INFORMATION about the script  | #
-#
+# |----------------  INFORMATION about the script  ------------------------| 
 help(){
 	echo -e "Script requirements:\n"
-	echo -e "       $BGreen$(basename $0)$Color_Off <file_name>" 
-	echo -e "       $BGreen$(basename $0)$Color_Off [$Green-l$Color_Off] [$Green-w$Color_Off <file_name>] [$Green-s$Color_Off <file_name>]\n"
-	echo -e "-w creates a script file in workin directory - $Green$(pwd)$Color_Off"
-	echo -e "-s creates a script file in $Green$HOME/home_lab/scripts$Color_Off"
-	echo -e "-l lists all the scripts in $Green$HOME/home_lab/scripts$Color_Off"
+	echo -e "       $BGreen$(basename $0)$Color_Off <file_name>   
+           - creates a script in working directory" 
+	echo -e "       $BGreen$(basename $0)$Color_Off [$Green-w$Color_Off/$Green-s$Color_Off/$Green-t$Color_Off <file_name>]\n"
+	echo -e "-s creates a script file in $Green$HOME$Color_Off/t4Linux/home_lab/scripts/testing"
+	echo -e "-t creates a script file in $Green$HOME$Color_Off/tmp"
+	echo -e "-l lists all the scripts in $Green$HOME$Color_Off/home_lab/scripts"
 }
-
-#  #  NEW SCRIPT CONTENT  #
-#  #----------------------#
-#
+# |----------------  New script content  ----------------------------------| 
 content(){
 	touch $new_script
 	cat > $new_script<< EOF
 #!/bin/env bash
-#
-#  # +----------------------------------------------+ #
-#  # | created by: achmur           time4Linux      | #
-#  # | ------------------          __  __ __  __    | #
-#  # |                            / /_/ // / / /    | #
-#  # | created on: $(date +%Y-%m-%d)    / __/ // /_/ /     | #
-#  # | updated on:              / /_/__  __/ /___   | #
-#  # |                          \__/  /_/ /_____/   | #
-#  # | Description:                                 | #
-#  # |                                              | #
-#  # +----------------------------------------------+ #
+# +-- created by: achmur -------------- time4Linux ------------------------+ #
+# |     __  __ __  __    _                           __           .--.     | #
+# |    / /_/ // / / /   (_)___  __  ___  __   ____  / /          |ö_ö |    | #
+# |   / __/ // /_/ /   / / __ \/ / / / |/_/  / __ \/ /           |\ü/ |    | #
+# |  / /_/__  __/ /___/ / / / / /_/ />  < _ / /_/ / /           //   \ \   | #
+# |  \__/  /_/ /_____/_/_/ /_/\__,_/_/|_/(_) .___/_/           (|     | )  | #
+# |                                       /_/                 /'\_   _/\`\\\ | #
+# |  Version     : 0.1                         $(date +%Y-%m-%d)     \___)=(___// | #
+# +------------------------------------------ $(date +%Y-%m-%d) ------------------+ #
+# |  Description :                                                         | # 
+# |                                                                        | #
+# +------------------------------------------------------------------------+ #
 . my_colors
-
-
+# |------------------------                      --------------------------| #
 EOF
 }
-
-#  #  MAN PAGE FOR SCRIPT #
-#  #----------------------#
-#
+# |----------------  Man pages  -------------------------------------------| #
 scr_man(){
 echo -e "
 $BGreen NAME$Color_OFF
-	$IGreen $(basename $0)$Color_Off - program for creating scripts\n
+	$IGreen $(basename $0)$Color_Off - script template\n
 $BGreen SYNOPSIS
 	$IGreen $(basename $0)$Color_Off [flag] [file_name]\n
 $BGreen OPTIONS\n
@@ -72,52 +64,41 @@ $BGreen OPTIONS\n
 	displays this help file
 "
 }
-#  # +------------+ #
-#  # |    main    | #
-#  # +------------+ #
-#
-#  #  CHECKING FOR ARGUMENT  #
-#  #-------------------------#
-#
+# |----------------  Checking script's validity ---------------------------| 
+# # checking for arguments
 if [ ${#} -eq 0 ]; then
  	help
-
-#  #  CHECKING FOR FLAG  #
-#  #---------------------#
-
+# # checking for flags
 elif [[ $1 == -? ]]; then
-
-#  #  GETOPTS  #
-#  #-----------#
-
-while getopts 'hw:s:lt' OPTION; do
+# # getopts
+while getopts 'h:s:lm:t:' OPTION; do
 	case "$OPTION" in
 		h)
 			help
 			;;
-		w)
-			wvalue="$OPTARG"
-			new_script=$(pwd)/$OPTARG.sh
-			content
-      chmod +x $new_script
-			${EDITOR} $new_script
-			;;
 		s)
 			svalue="$OPTARG"
-			new_script=$HOME/home_lab/scripts/$OPTARG.sh
+			new_script=$HOME/t4Linux/home_lab/scripts/testing/$OPTARG.sh
 			content
       chmod +x $new_script
 			${EDITOR} $new_script
 			;;
 		l)
-      echo -e "home_lab/scripts:\n"
+      echo -e "t4Linux/home_lab/scripts:\n"
       if ! command -v exa &>/dev/null; then 
-        ls -gGh --time-style=+%Y-%m-%d $HOME/home_lab/scripts/ | awk '{ print $4 " " $5  }'
+        ls -gh --time-style=+%Y-%m-%d $HOME/t4Linux/home_lab/scripts/ | awk '{ print $4 " " $5  }'
       else
-        exa -lgG --group-directories-first --icons --color-scale --time-style=long-iso $HOME/dotfiles/bin  | awk '{ print $5 " " $7 " " $8 }'
+        exa -lg --group-directories-first --icons --color-scale --time-style=long-iso $HOME/dotfiles/bin  | awk '{ print $5 " " $7 " " $8 }'
       fi
 			;;
 		t)
+			svalue="$OPTARG"
+			new_script=$HOME/tmp/$OPTARG.sh
+			content
+      chmod +x $new_script
+			${EDITOR} $new_script
+			;;
+		m)
 			scr_man | less
 			;;
 		*)
@@ -126,10 +107,7 @@ while getopts 'hw:s:lt' OPTION; do
 			;;
 	esac
 done
-
-#  #  NEW SCRIPT in pwd  #
-#  #---------------------#
-
+# #  NEW SCRIPT in pwd
 else
   touch $1.sh
   new_script=$(pwd)/$1.sh
