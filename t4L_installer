@@ -22,7 +22,7 @@ lg(){
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
     sudo install lazygit /usr/local/bin
-    rm lazygit
+    rm lazygit.tar.gz
     echo "Lazygit installation successful"
   else
     echo "Lazygit already installed"
@@ -42,11 +42,14 @@ dcr(){
   fi
 }
 # ========================================================================== #
-#                              lazydocker                                    #
+#   check for PATH             lazydocker                                    #
 # ========================================================================== #
 lzd(){
   if [[ ! -d $HOME/.local/bin/lazydocker ]]; then
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+    if [[ -d $HOME/.local/bin ]]; then
+      export PATH="$HOME/.local/bin:$PATH"
+    fi
     echo "Lazydocker installation successful"
   else
     echo "Lazydocker already installed"
@@ -187,6 +190,18 @@ golang(){
 # ========================================================================== #
 # ########################################################################## #
 
+# choose(){
+#   echo "Do you want to install another program? [Y/N]"
+#   while true; do
+#     read -s -n 1 yn
+#     case $yn in
+#        Y|y ) ;;
+#        N|n ) exit 0 ;;
+#       *) echo "Are you drunk? Pres y or n"
+#     esac
+#   done
+# }
+
 # menu for user
 echo "Pick programm you want to install"
 echo -e "
@@ -210,31 +225,40 @@ case_function(){
      0) exit 0 ;;
      1) 
        lg  
+       # choose
        exit 0 ;;
      2) 
        dcr
+       # choose
        exit 0 ;;
      3) 
        lzd
+       # choose
        exit 0 ;;
      4) 
        delta
+       # choose
        exit 0 ;;
      5) 
        bat
+       # choose
        exit 0 ;;
      6) 
        neovim
+       # choose
        exit 0 ;;
      7) 
        lvim_dep
        lunarvim
+       # choose
        exit 0 ;;
      8) 
        rust
+       # choose
        exit 0 ;;
      9) 
        golang
+       # choose
        exit 0 ;;
      *) 
        echo -e "Are you drunk?"
