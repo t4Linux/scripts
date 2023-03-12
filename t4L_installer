@@ -17,7 +17,10 @@
 #                               lazygit                                      #
 # ========================================================================== #
 lg(){
-  if ! [[ -e /usr/local/bin/lazygit ]]; then
+  if [[ ! -e /usr/local/bin/lazygit ]]; then
+    if ! command -v git $>/dev/null; then
+      sudo apt install -y git
+    else
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
@@ -46,6 +49,9 @@ dcr(){
 # ========================================================================== #
 lzd(){
   if [[ ! -d $HOME/.local/bin/lazydocker ]]; then
+    if ! command -v docker &>/dev/null; then
+      dcr
+    fi
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
     if [[ -d $HOME/.local/bin ]]; then
       export PATH="$HOME/.local/bin:$PATH"
@@ -194,7 +200,7 @@ menu(){
   echo -e "\nPick progrom from the list to install...
   1) lazygit
   2) docker
-  3) lazydocker
+  3) lazydocker & docker
   4) delta
   5) bat
   6) NeoVim
@@ -209,9 +215,6 @@ menu(){
 # ========================================================================== #
 # ########################################################################## #
 
-# menu for user
-# because I want to rerun case statement if the input is invalid
-# I've created function that is run at the end
 menu
   repeat=true
   while [ "$repeat" = true ]; do
