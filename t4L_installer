@@ -104,11 +104,11 @@ neovim(){
     # if version is less then 0.8.1 then installing newer
     if (( $ver <= "81" )); then
       sudo apt remove -y neovim
+      sudo apt autoremove && sudo apt clean
       echo "Removing older version of neovim"
       echo "Downloading and installing newe version of neovim"
       mkdir -p $HOME/tmp
       wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -P $HOME/tmp
-      sudo apt autoremove && sudo apt clean
       sudo apt install -y $HOME/tmp/nvim-linux64.deb
       echo "Cleaning up"
       rm $HOME/tmp/nvim-linux64.deb
@@ -120,6 +120,7 @@ neovim(){
     cd $HOME/tmp
     echo "Downloading and installing newe version of neovim"
     wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
+    sudo apt autoremove && sudo apt clean
     sudo apt install -y $HOME/tmp/nvim-linux64.deb
     rm nvim-linux64.deb
     echo -e "\nZainstalowano neovim"
