@@ -104,9 +104,12 @@ neovim(){
     # if version is less then 0.8.1 then installing newer
     if (( $ver <= "81" )); then
       sudo apt remove -y neovim
+      echo "Removing older version of neovim"
       cd $HOME/tmp
+      echo "Downloading and installing newe version of neovim"
       wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
       sudo apt install -y $HOME/tmp/nvim-linux64.deb
+      echo "Cleaning up"
       rm $HOME/tmp/nvim-linux64.deb
       echo -e "\nThe newest nvim "$IGreen"v0."${ver:0:1}.${ver:1}$Color_Off" installed"
     elif  (( $ver > "81" )); then
@@ -114,6 +117,7 @@ neovim(){
     fi
   else
     cd $HOME/tmp
+    echo "Downloading and installing newe version of neovim"
     wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
     sudo apt install -y $HOME/tmp/nvim-linux64.deb
     rm nvim-linux64.deb
