@@ -20,6 +20,7 @@ lg(){
   if [[ ! -e /usr/local/bin/lazygit ]]; then
     if ! command -v git $>/dev/null; then
       sudo apt install -y git
+    fi
     else
     LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
@@ -45,7 +46,7 @@ dcr(){
   fi
 }
 # ========================================================================== #
-#   check for PATH             lazydocker                                    #
+#                              lazydocker                                    #
 # ========================================================================== #
 lzd(){
   if [[ ! -d $HOME/.local/bin/lazydocker ]]; then
@@ -186,10 +187,10 @@ rust(){
 golang(){
   if ! [[ -d /usr/local/go ]]; then
     cd $HOME/tmp
-    wget https://go.dev/dl/go1.19.5.linux-amd64.tar.gz
-    sudo tar -C /usr/local -xvf $HOME/tmp/go1.19.5.linux-amd64.tar.gz
+    wget https://go.dev/dl/go1.20.2.linux-amd64.tar.gz
+    sudo tar -C /usr/local -xvf $HOME/tmp/go1.20.2.linux-amd64.tar.gz
     export PATH=$PATH:/usr/local/go/bin
-    rm $HOME/tmp/go1.19.5.linux-amd64.tar.gz
+    rm $HOME/tmp/go1.20.2.linux-amd64.tar.gz
     echo "Zainstalowano Golang"
   else 
     echo "Golang zainstalowany, instalacja pominięta"
